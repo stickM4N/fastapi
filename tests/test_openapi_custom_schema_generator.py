@@ -1,6 +1,7 @@
 import pytest
 from fastapi import FastAPI
 from fastapi._compat import PYDANTIC_V2, GenerateJsonSchema
+from fastapi.openapi.constants import REF_TEMPLATE
 from fastapi.openapi.utils import get_openapi
 
 app = FastAPI()
@@ -14,7 +15,7 @@ def read_root():
 # Custom schema generator that does nothing but tracks if it was called
 class CustomJsonSchemaGenerator(GenerateJsonSchema):
     def __init__(self):
-        super().__init__()
+        super().__init__(ref_template=REF_TEMPLATE)
         self.called = False
 
     def generate_definitions(self, *args, **kwargs):
